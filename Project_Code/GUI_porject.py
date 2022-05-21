@@ -22,6 +22,34 @@ The_text.pack()
 #Config of Scrollbar
 text_scroll.config(command=The_text.yview)
 
+#Creation of the menu
+myMenu = Menu(root)
+root.config(menu=myMenu)
+
+#Add file 
+file_menu = Menu(myMenu)
+myMenu.add_cascade(label="File", menu=file_menu)
+file_menu.add_command(label="Open")
+file_menu.add_command(label="Save")
+file_menu.add_command(label="New")
+file_menu.add_separator()
+file_menu.add_command(label="Exit")
+
+#Add an edit menu
+edit_menu = Menu(myMenu)
+myMenu.add_cascade(label="Edit", menu=edit_menu)
+edit_menu.add_command(label="Copy")
+edit_menu.add_command(label="Paste")
+edit_menu.add_command(label="Cut")
+edit_menu.add_command(label="Undo")
+edit_menu.add_command(label="Redo")
+
+#Status bar to Botto of the GUI
+status_bar = Label(root, text="Ready  ", anchor=E)
+status_bar.pack(fill=X, side=BOTTOM, ipady=5)
+
+
+
 root.mainloop()
 
 
