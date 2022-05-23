@@ -125,7 +125,42 @@ def paste_text(e):
 			position = The_text.index(INSERT)
 			The_text.insert(position, selected)
 
+#Bold the text
+def bold_it():
+	#Creation of the font
+	bold_font = font.Font(The_text, The_text.cget("font"))
+	bold_font.configure(weight="bold")
 
+	#The config of a tag
+	The_text.tag_configure("bold", font=bold_font)
+
+	current_tags = The_text.tag_names("sel.first")
+
+	if "bold" in current_tags:
+		The_text.tag_remove("bold", "sel.first", "sel.last")
+	else:
+		The_text.tag_add("bold", "sel.first", "sel.last")
+
+#Italics the text
+def italics_it():
+	#Creation of the font
+	italics_font = font.Font(The_text, The_text.cget("font"))
+	italics_font.configure(slant="italic")
+
+	#The config of a tag
+	The_text.tag_configure("italic", font=italics_font)
+
+	current_tags = The_text.tag_names("sel.first")
+
+	if "italic" in current_tags:
+		The_text.tag_remove("italic", "sel.first", "sel.last")
+	else:
+		The_text.tag_add("italic", "sel.first", "sel.last")
+
+
+#Here I put a toolbar frame 
+toolbar_frame = Frame(root)
+toolbar_frame.pack(fill=X)
 
 
 #Here I create a Main Frame
@@ -173,12 +208,27 @@ edit_menu.add_command(label="Redo", command=The_text.edit_redo, accelerator="(Ct
 
 #Status bar to Botto of the GUI
 status_bar = Label(root, text="Ready        ", anchor=E)
-status_bar.pack(fill=X, side=BOTTOM, ipady=15)
+status_bar.pack(fill=X, side=BOTTOM, ipady=12)
 
 #Edit Bindings 
 root.bind('<Control-Key-x>', cut_text)
 root.bind('<Control-Key-c>', copy_text)
 root.bind('<Control-Key-v>', paste_text)
+
+#Create Buttons 
+#Bold button
+bold_button = Button(toolbar_frame, text="Bold", command=bold_it)
+bold_button.grid(row=0, column=0, sticky=W, padx=5)
+#Italics button
+italics_button = Button(toolbar_frame, text="Italics", command=italics_it)
+italics_button.grid(row=0, column=1, padx=5)
+
+#Undo and Redo buttom
+undo_button = Button(toolbar_frame, text="Undo", command=The_text.edit_undo)
+undo_button.grid(row=0, column=2, padx=5)
+redo_button = Button(toolbar_frame, text="Redo", command=The_text.edit_redo)
+redo_button.grid(row=0, column=3, padx=5)
+
 
 root.mainloop()
 
