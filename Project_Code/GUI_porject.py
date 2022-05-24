@@ -136,12 +136,17 @@ The_frame.pack(pady=5)
 text_scroll = Scrollbar(The_frame)
 text_scroll.pack(side=RIGHT, fill=Y)
 
+#Here is the creation of the scrollbar horizontal
+hor_scroll = Scrollbar(The_frame, orient='horizontal')
+hor_scroll.pack(side=BOTTOM, fill=X)
+
 #Here I create My Text Box 
-The_text = Text(The_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="green", selectforeground="black", undo=True, yscrollcommand=text_scroll.set)
+The_text = Text(The_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="green", selectforeground="black", undo=True, yscrollcommand=text_scroll.set, wrap="none", xscrollcommand=hor_scroll.set)
 The_text.pack()
 
 #Config of Scrollbar
 text_scroll.config(command=The_text.yview)
+hor_scroll.config(command=The_text.xview)
 
 #Creation of the menu
 myMenu = Menu(root)
@@ -160,15 +165,15 @@ file_menu.add_command(label="Exit", command=root.quit)
 #Add an edit menu
 edit_menu = Menu(myMenu)
 myMenu.add_cascade(label="Edit", menu=edit_menu)
-edit_menu.add_command(label="Copy   Ctrl+x", command=lambda: copy_text(False))
-edit_menu.add_command(label="Paste   Ctrl+v", command=lambda: paste_text(False))
-edit_menu.add_command(label="Cut      Ctrl+x", command=lambda: cut_text(False))
-edit_menu.add_command(label="Undo")
-edit_menu.add_command(label="Redo")
+edit_menu.add_command(label="Copy", command=lambda: copy_text(False), accelerator="(Ctrl+C)")
+edit_menu.add_command(label="Paste", command=lambda: paste_text(False), accelerator="(Ctrl+V)")
+edit_menu.add_command(label="Cut", command=lambda: cut_text(False), accelerator="(Ctrl+X)")
+edit_menu.add_command(label="Undo", command=The_text.edit_undo, accelerator="(Ctrl+Z)")
+edit_menu.add_command(label="Redo", command=The_text.edit_redo, accelerator="(Ctrl+Y)")
 
 #Status bar to Botto of the GUI
 status_bar = Label(root, text="Ready        ", anchor=E)
-status_bar.pack(fill=X, side=BOTTOM, ipady=5)
+status_bar.pack(fill=X, side=BOTTOM, ipady=15)
 
 #Edit Bindings 
 root.bind('<Control-Key-x>', cut_text)
