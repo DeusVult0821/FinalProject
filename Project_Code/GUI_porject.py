@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter import font
+from tkinter import colorchooser
 
 root = Tk()
 root.title("Text Editor")
@@ -157,6 +158,36 @@ def italics_it():
 	else:
 		The_text.tag_add("italic", "sel.first", "sel.last")
 
+#Change color of the text
+def text_color():
+	#Chouse a color
+	The_color = colorchooser.askcolor()[1]
+	if The_color:
+		#Creation of the font
+		color_font = font.Font(The_text, The_text.cget("font"))
+
+		#The config of a tag
+		The_text.tag_configure("color_text", font=color_font, foreground=The_color)
+
+		current_tags = The_text.tag_names("sel.first")
+
+		if "color_text" in current_tags:
+			The_text.tag_remove("color_text", "sel.first", "sel.last")
+		else:
+			The_text.tag_add("color_text", "sel.first", "sel.last")
+
+#Chenge the background color
+def bg_color():
+	The_color = colorchooser.askcolor()[1]
+	if The_color:
+		The_text.config(bg=The_color)
+
+#Change all the text color
+def all_text_color():
+	The_color = colorchooser.askcolor()[1]
+	if The_color:
+		The_text.config(fg=The_color)
+
 
 #Here I put a toolbar frame 
 toolbar_frame = Frame(root)
@@ -206,6 +237,13 @@ edit_menu.add_command(label="Cut", command=lambda: cut_text(False), accelerator=
 edit_menu.add_command(label="Undo", command=The_text.edit_undo, accelerator="(Ctrl+Z)")
 edit_menu.add_command(label="Redo", command=The_text.edit_redo, accelerator="(Ctrl+Y)")
 
+#The color Menu
+color_menu = Menu(myMenu)
+myMenu.add_cascade(label="Colors", menu=color_menu)
+color_menu.add_command(label="Change selected Text", command=text_color)
+color_menu.add_command(label="Change all the text", command=all_text_color)
+color_menu.add_command(label="Change background", command=bg_color)
+
 #Status bar to Botto of the GUI
 status_bar = Label(root, text="Ready        ", anchor=E)
 status_bar.pack(fill=X, side=BOTTOM, ipady=12)
@@ -228,6 +266,12 @@ undo_button = Button(toolbar_frame, text="Undo", command=The_text.edit_undo)
 undo_button.grid(row=0, column=2, padx=5)
 redo_button = Button(toolbar_frame, text="Redo", command=The_text.edit_redo)
 redo_button.grid(row=0, column=3, padx=5)
+
+#Text Color
+color_text_button = Button(toolbar_frame, text="Text Color", command=text_color)
+color_text_button.grid(row=0, column=4, padx=5)
+
+
 
 
 root.mainloop()
