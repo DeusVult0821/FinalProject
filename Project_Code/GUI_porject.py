@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import font
 from tkinter import colorchooser
+import os, sys
+import win32print
+import win32api
 
 root = Tk()
 root.title("Text Editor")
@@ -188,6 +191,13 @@ def all_text_color():
 	if The_color:
 		The_text.config(fg=The_color)
 
+#Primt function
+def print_file():
+	print_name = win32print.GetDefaultPrinter()
+	status_bar.config(text=print_name)
+	file_to_print = filedialog.askopenfilename(title="Open File", filetypes=(("Text File", "*.txt"), ("HTML File", "*.html"), ("Python File", "*.py"), ("All Files", "*.*")))
+	if file_to_print:
+		win32api.ShellExecute(0, "primt", file_to_print, None, ".", 0)
 
 #Here I put a toolbar frame 
 toolbar_frame = Frame(root)
@@ -227,6 +237,9 @@ file_menu.add_command(label="Save As", command=save_as_file)
 file_menu.add_command(label="New", command = new_file)
 file_menu.add_separator()
 file_menu.add_command(label="Exit", command=root.quit)
+file_menu.add_separator()
+file_menu.add_command(label="Print", command=print_file)
+
 
 #Add an edit menu
 edit_menu = Menu(myMenu)
@@ -271,9 +284,4 @@ redo_button.grid(row=0, column=3, padx=5)
 color_text_button = Button(toolbar_frame, text="Text Color", command=text_color)
 color_text_button.grid(row=0, column=4, padx=5)
 
-
-
-
 root.mainloop()
-
-
