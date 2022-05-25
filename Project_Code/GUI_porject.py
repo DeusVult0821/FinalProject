@@ -199,6 +199,15 @@ def print_file():
 	if file_to_print:
 		win32api.ShellExecute(0, "primt", file_to_print, None, ".", 0)
 
+#Select all the text
+def select_all(e):
+	#Add sel tag to get all the tags of the text
+	The_text.tag_add('sel', '1.0', 'end')
+
+#Clear All the Text
+def clear_all():
+	The_text.delete(1.0, END)
+
 #Here I put a toolbar frame 
 toolbar_frame = Frame(root)
 toolbar_frame.pack(fill=X)
@@ -241,14 +250,19 @@ file_menu.add_separator()
 file_menu.add_command(label="Print", command=print_file)
 
 
+
 #Add an edit menu
 edit_menu = Menu(myMenu)
 myMenu.add_cascade(label="Edit", menu=edit_menu)
-edit_menu.add_command(label="Copy", command=lambda: copy_text(False), accelerator="(Ctrl+C)")
-edit_menu.add_command(label="Paste", command=lambda: paste_text(False), accelerator="(Ctrl+V)")
-edit_menu.add_command(label="Cut", command=lambda: cut_text(False), accelerator="(Ctrl+X)")
-edit_menu.add_command(label="Undo", command=The_text.edit_undo, accelerator="(Ctrl+Z)")
-edit_menu.add_command(label="Redo", command=The_text.edit_redo, accelerator="(Ctrl+Y)")
+edit_menu.add_command(label="Copy", command=lambda: copy_text(False), accelerator="(Ctrl+c)")
+edit_menu.add_command(label="Paste", command=lambda: paste_text(False), accelerator="(Ctrl+v)")
+edit_menu.add_command(label="Cut", command=lambda: cut_text(False), accelerator="(Ctrl+x)")
+edit_menu.add_command(label="Undo", command=The_text.edit_undo, accelerator="(Ctrl+z)")
+edit_menu.add_command(label="Redo", command=The_text.edit_redo, accelerator="(Ctrl+y)")
+file_menu.add_separator()
+edit_menu.add_command(label="Select All", command=lambda: select_all(True), accelerator="(Ctrl+A)")
+edit_menu.add_command(label="Clear", command=clear_all, accelerator="(Ctrl+a)")
+
 
 #The color Menu
 color_menu = Menu(myMenu)
@@ -265,6 +279,9 @@ status_bar.pack(fill=X, side=BOTTOM, ipady=12)
 root.bind('<Control-Key-x>', cut_text)
 root.bind('<Control-Key-c>', copy_text)
 root.bind('<Control-Key-v>', paste_text)
+#Select Binding
+root.bind('Control-A', select_all)
+root.bind('Control-a', select_all)
 
 #Create Buttons 
 #Bold button
