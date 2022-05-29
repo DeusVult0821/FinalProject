@@ -8,7 +8,7 @@ import win32api
 
 root = Tk()
 root.title("Text Editor")
-root.iconbitmap("C:/Users/Erik/Desktop/GUI_Final_Project/Icon/Logo.ico")
+root.iconbitmap("C:/Users/Erik/Desktop/GUI_Final_Project/Icon/Logo.ico")#Please Change the file location to work the Icon of the university
 root.geometry("1200x800")
 
 global open_status_name
